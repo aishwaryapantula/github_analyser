@@ -1,4 +1,3 @@
-!pip install boto3 requests
 import os
 import requests
 import json
