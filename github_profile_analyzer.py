@@ -5,19 +5,20 @@ import boto3
 from datetime import datetime
 
 def main():
-    GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+ 
+    USERNAME = os.getenv("USERNAME")
     BUCKET_NAME = os.getenv("BUCKET_NAME")
-    AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
-    if not all([GITHUB_USERNAME, BUCKET_NAME, AWS_ACCESS_KEY, AWS_SECRET_KEY]):
+    if not all([USERNAME, BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]):
         print("Error: Missing one or more required environment variables.")
         return
 
-    FILE_NAME = f"github_profile_report_{GITHUB_USERNAME}.json"
+    FILE_NAME = f"github_profile_report_{USERNAME}.json"
 
     # Fetch GitHub repos
-    url = f"https://api.github.com/users/{GITHUB_USERNAME}/repos"
+    url = f"https://api.github.com/users/{USERNAME}/repos"
     response = requests.get(url)
 
     if response.status_code != 200:
@@ -35,7 +36,7 @@ def main():
             languages[lang] = languages.get(lang, 0) + 1
 
     summary = {
-        "username": GITHUB_USERNAME,
+        "username": USERNAME,
         "total_repos": len(repos),
         "total_stars": total_stars,
         "top_languages": sorted(languages.items(), key=lambda x: x[1], reverse=True),
@@ -50,8 +51,8 @@ def main():
 
     # Upload to S3
     s3 = boto3.client('s3',
-                      aws_access_key_id=AWS_ACCESS_KEY,
-                      aws_secret_access_key=AWS_SECRET_KEY)
+                      aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
     try:
         s3.upload_file(FILE_NAME, BUCKET_NAME, FILE_NAME)
