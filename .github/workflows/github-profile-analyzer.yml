@@ -1,0 +1,30 @@
+name: GitHub Profile Analyzer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze-profile:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install boto3 requests
+
+      - name: Run profile analyzer script
+        run: |
+          python github_profile_analyzer.py
