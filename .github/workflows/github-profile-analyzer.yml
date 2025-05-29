@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install boto3 requests
+          pip install boto3 requests fpdf
 
       - name: Run profile analyzer script
         run: |
