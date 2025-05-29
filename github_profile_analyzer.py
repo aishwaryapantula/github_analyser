@@ -15,10 +15,10 @@ def main():
         print("Error: Missing one or more required environment variables.")
         return
 
-    FILE_NAME = f"github_profile_report_{USERNAME}.json"
+    FILE_NAME = f"github_profile_report_{GITHUB_USERNAME}.json"
 
     # Fetch GitHub repos
-    url = f"https://api.github.com/users/{USERNAME}/repos"
+    url = f"https://api.github.com/users/{GITHUB_USERNAME}/repos"
     response = requests.get(url)
 
     if response.status_code != 200:
@@ -36,7 +36,7 @@ def main():
             languages[lang] = languages.get(lang, 0) + 1
 
     summary = {
-        "username": USERNAME,
+        "username": GITHUB_USERNAME,
         "total_repos": len(repos),
         "total_stars": total_stars,
         "top_languages": sorted(languages.items(), key=lambda x: x[1], reverse=True),
