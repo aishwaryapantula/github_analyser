@@ -6,7 +6,7 @@ from datetime import datetime
 
 def main():
  
-    GITHUB_USERNAME = os.getenv("GITHUBUSERNAME")
+    GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
     BUCKET_NAME = os.getenv("BUCKET_NAME")
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
